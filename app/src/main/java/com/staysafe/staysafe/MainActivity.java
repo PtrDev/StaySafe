@@ -11,6 +11,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         locationText = (TextView) findViewById(R.id.location_text);
         locationText.setText("...");
         locationText.setVisibility(View.INVISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            locationText.setCompoundDrawables(getDrawable(R.drawable.ic_place_black),null,null,null);
 
         warningText = (TextView) findViewById(R.id.warning_text);
         warningImage = (ImageView) findViewById(R.id.warning_image);
@@ -133,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         @Override
                         public void OnPostExecute(String result) {
                             try {
+                                if (result == null)
+                                    return;
                                 JSONObject obj = new JSONObject(result);
                                 String name = obj.getJSONObject("response").getJSONArray("docs").getJSONObject(0).getString("name");
                                 locationText.setText(name);
@@ -164,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 if (mCurrentLocation != null){
                     alertRef.push().setValue(new Alert("+39 349 3333334", mCurrentLocation.getLatitude(),
                             mCurrentLocation.getLongitude(), accidentType));
-                    accidentType = "accident";
+                    accidentType = "infarct";
                 } else {
                     CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator);
                     Snackbar.make(coordinatorLayout, "No location available", Snackbar.LENGTH_SHORT)
@@ -277,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     warningImage.setVisibility(View.INVISIBLE);
                     warningText.setText("!");
                     TIMER_STATUS = RunningTypes.RUNNING;
-                    accidentType = "car crash";
+                    accidentType = "car-crash";
                 }
             }
         }

@@ -78,8 +78,6 @@
         android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:drawableLeft="@drawable/ic_place_black"
-        android:drawableStart="@drawable/ic_place_black"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
 </android.support.constraint.ConstraintLayout>
